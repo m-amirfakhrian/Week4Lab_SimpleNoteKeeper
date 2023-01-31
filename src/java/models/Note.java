@@ -40,6 +40,11 @@ public class Note implements Serializable {
         this.contents = contents;
     }
 
+    @Override
+    public String toString() {
+        return title + "\n" + contents;
+    }
+
     
 
 }
