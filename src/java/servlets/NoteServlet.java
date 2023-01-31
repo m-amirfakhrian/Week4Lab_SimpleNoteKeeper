@@ -33,8 +33,14 @@ public class NoteServlet extends HttpServlet {
         request.setAttribute("contents", contents);
         Note note = new Note(title, contents);
         request.setAttribute("note", note);
-        getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp")
+        String edit = request.getParameter("edit");
+        if(edit == ""){
+            getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp")
                 .forward(request, response);
+        }else{
+            getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp")
+                .forward(request, response);
+        }        
         br.close();
         return;
     }
@@ -47,10 +53,16 @@ public class NoteServlet extends HttpServlet {
         String contents = request.getParameter("contents");
         Note note = new Note(title, contents);
         request.setAttribute("note", note);
-        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
-        pw.print(note);
-        getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp")
+        String edit = request.getParameter("edit");
+        if(edit == ""){
+            getServletContext().getRequestDispatcher("/WEB-INF/viewnote.jsp")
                 .forward(request, response);
+        }else{
+            getServletContext().getRequestDispatcher("/WEB-INF/editnote.jsp")
+                .forward(request, response);
+        } 
+        PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
+        pw.print(note);        
         pw.close();
     }
 
